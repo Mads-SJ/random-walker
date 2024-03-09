@@ -80,12 +80,10 @@ removeRandomWalkerButton.addEventListener("click", () => {
 });
 
 clearCanvasButton.addEventListener("click", () => {
-    createGrid();
     renderGrid();
 });
 
 resetButton.addEventListener("click", () => {
-    createGrid();
     renderGrid();
     randomWalkers = [new RandomWalker(gridContext)];
     randomWalkerCount.textContent = randomWalkers.length;
