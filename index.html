@@ -26,21 +26,23 @@
                 <span id="random-walker-count">1</span>
             </h2>
             <div id="controls-grid">
-                <button type="button" id="add-random-walker-btn">
-                    Add Random Walker
-                </button>
+                <button type="button" id="add-random-walker-btn">Add</button>
                 <button type="button" id="remove-random-walker-btn">
-                    Remove Random Walker
+                    Remove
                 </button>
-                <button type="button" id="start-stop-btn">Start/Stop</button>
+                <button type="button" id="start-stop-btn">Stop</button>
                 <div id="delay-container">
                     <label for="delay-input" id="delay-label">Delay (ms)</label>
-                    <input type="number" id="delay-input" value="0" />
+                    <input
+                        type="number"
+                        id="delay-input"
+                        value="0"
+                        min="0"
+                        max="2000"
+                    />
                 </div>
 
-                <button type="button" id="clear-canvas-btn">
-                    Clear Canvas
-                </button>
+                <button type="button" id="clear-canvas-btn">Clear</button>
                 <button type="button" id="reset-btn">Reset</button>
             </div>
         </div>

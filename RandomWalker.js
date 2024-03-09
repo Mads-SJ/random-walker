@@ -1,15 +1,13 @@
 export default class RandomWalker {
-    constructor(grid, ctx, rows, cols) {
+    constructor(gridContext) {
         this.UP = 0;
         this.DOWN = 1;
         this.LEFT = 2;
         this.RIGHT = 3;
-        this.grid = grid;
-        this.rows = rows;
-        this.cols = cols;
-        this.row = Math.trunc(Math.random() * rows);
-        this.col = Math.trunc(Math.random() * cols);
-        this.ctx = ctx;
+        this.gridContext = gridContext;
+        this.row = Math.trunc(Math.random() * this.gridContext.rows);
+        this.col = Math.trunc(Math.random() * this.gridContext.cols);
+
         this.addToPath(this.row, this.col);
     }
 
@@ -43,13 +41,13 @@ export default class RandomWalker {
         if (currentRow - 1 >= 0) {
             possibleDirections.push(this.UP);
         }
-        if (currentRow + 1 < this.rows) {
+        if (currentRow + 1 < this.gridContext.rows) {
             possibleDirections.push(this.DOWN);
         }
         if (currentCol - 1 >= 0) {
             possibleDirections.push(this.LEFT);
         }
-        if (currentCol + 1 < this.cols) {
+        if (currentCol + 1 < this.gridContext.cols) {
             possibleDirections.push(this.RIGHT);
         }
 
@@ -58,7 +56,6 @@ export default class RandomWalker {
     }
 
     addToPath(row, col) {
-        this.ctx.fillRect(col * 4, row * 4, 4, 4);
-        this.grid[row][col] = true;
+        this.gridContext.ctx.fillRect(col * 4, row * 4, 4, 4);
     }
 }

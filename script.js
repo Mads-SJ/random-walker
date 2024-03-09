@@ -1,11 +1,13 @@
 import RandomWalker from "./randomWalker.js";
+import GridContext from "./GridContext.js";
 
-let rows = 200;
-let cols = 200;
-let grid = [];
+let cellSize = 4;
 let run = true;
 let delayInMilliseconds = 0;
 let randomWalkers = [];
+const resizeWidth = 1200;
+let timeoutId = null;
+let isMobile = window.innerWidth < resizeWidth;
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -19,19 +21,16 @@ const removeRandomWalkerButton = document.querySelector(
 const resetButton = document.querySelector("#reset-btn");
 const randomWalkerCount = document.querySelector("#random-walker-count");
 
-function createGrid() {
-    for (let i = 0; i < rows; i++) {
-        grid[i] = [];
-        for (let j = 0; j < cols; j++) {
-            grid[i][j] = false;
-        }
-    }
-}
+const gridContext = new GridContext(ctx, 200, 200);
 
 function renderGrid() {
+    if (window.innerWidth < resizeWidth) {
+        gridContext.rows = 100;
+        gridContext.cols = 100;
+    }
     // Set the size of the canvas to match the grid
-    canvas.width = cols * 4;
-    canvas.height = rows * 4;
+    canvas.width = gridContext.cols * cellSize;
+    canvas.height = gridContext.rows * cellSize;
 
     // set the color of the whole canvas
     ctx.fillStyle = "rgb(103, 52, 19)";
@@ -41,11 +40,11 @@ function renderGrid() {
     ctx.fillStyle = "burlywood";
 }
 
-function handleRandomWalkers() {
-    setTimeout(() => {
+function updateRandomWalkers() {
+    timeoutId = setTimeout(() => {
         randomWalkers.forEach(walker => walker.walk());
         if (run) {
-            handleRandomWalkers();
+            updateRandomWalkers();
         }
     }, delayInMilliseconds);
 }
@@ -53,16 +52,25 @@ function handleRandomWalkers() {
 startStopButton.addEventListener("click", () => {
     run = !run;
     if (run) {
-        handleRandomWalkers();
+        updateRandomWalkers();
+        startStopButton.textContent = "Stop";
+    } else {
+        startStopButton.textContent = "Start";
     }
 });
 
 delayInput.addEventListener("input", e => {
     delayInMilliseconds = e.target.value;
+    if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+    }
+    if (run) {
+        updateRandomWalkers();
+    }
 });
 
 addRandomWalkerButton.addEventListener("click", () => {
-    randomWalkers.push(new RandomWalker(grid, ctx, rows, cols));
+    randomWalkers.push(new RandomWalker(gridContext));
     randomWalkerCount.textContent = randomWalkers.length;
 });
 
@@ -79,13 +87,30 @@ clearCanvasButton.addEventListener("click", () => {
 resetButton.addEventListener("click", () => {
     createGrid();
     renderGrid();
-    randomWalkers = [new RandomWalker(grid, ctx, rows, cols)];
+    randomWalkers = [new RandomWalker(gridContext)];
     randomWalkerCount.textContent = randomWalkers.length;
     delayInMilliseconds = 0;
+    delayInput.value = 0;
+    run = true;
+    startStopButton.textContent = "Stop";
 });
 
-createGrid();
-renderGrid();
-randomWalkers = [new RandomWalker(grid, ctx, rows, cols)];
+window.addEventListener("resize", () => {
+    if (window.innerWidth < resizeWidth && !isMobile) {
+        isMobile = true;
+        gridContext.rows = 100;
+        gridContext.cols = 100;
+        renderGrid();
+    } else if (window.innerWidth >= resizeWidth && isMobile) {
+        isMobile = false;
+        gridContext.rows = 200;
+        gridContext.cols = 200;
+        renderGrid();
+    }
+});
 
-handleRandomWalkers();
+renderGrid();
+
+randomWalkers = [new RandomWalker(gridContext)];
+
+updateRandomWalkers();
