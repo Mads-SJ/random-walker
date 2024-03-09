@@ -89,8 +89,6 @@ resetButton.addEventListener("click", () => {
     randomWalkerCount.textContent = randomWalkers.length;
     delayInMilliseconds = 0;
     delayInput.value = 0;
-    run = true;
-    startStopButton.textContent = "Stop";
 });
 
 window.addEventListener("resize", () => {
