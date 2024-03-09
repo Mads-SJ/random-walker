@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles.css" />
+        <script src="script.js" type="module" defer></script>
+        <title>Random Walker</title>
+    </head>
+    <body>
+        <div id="controls-container">
+            <h1>Random Walker Algorithm</h1>
+            <p>
+                Welcome to the Random Walker Simulator – a digital canvas where
+                chance takes the lead! The algorithm behind this simulation
+                mirrors a wanderer's journey, where every step is a spontaneous,
+                random choice. Explore the captivating dynamics of randomness as
+                you witness the algorithm unfold unique patterns and unexpected
+                paths.<br />
+                Use the controls below to customize the simulation and see the
+                magic of chance in action!
+            </p>
+
+            <h2>
+                Number of Random Walkers:
+                <span id="random-walker-count">1</span>
+            </h2>
+            <div id="controls-grid">
+                <button type="button" id="add-random-walker-btn">
+                    Add Random Walker
+                </button>
+                <button type="button" id="remove-random-walker-btn">
+                    Remove Random Walker
+                </button>
+                <button type="button" id="start-stop-btn">Start/Stop</button>
+                <div id="delay-container">
+                    <label for="delay-input" id="delay-label">Delay (ms)</label>
+                    <input type="number" id="delay-input" value="0" />
+                </div>
+
+                <button type="button" id="clear-canvas-btn">
+                    Clear Canvas
+                </button>
+                <button type="button" id="reset-btn">Reset</button>
+            </div>
+        </div>
+
+        <canvas></canvas>
+    </body>
+</html>
